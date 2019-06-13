@@ -1,0 +1,2 @@
+# ChineseNewsSpider
+Chinese news spider
