@@ -29,3 +29,6 @@ def getnewsdetail(newsurl):                                        #获得单页
 
 def main():
     print(urls)
+
+if __name__ == "__main__":
+    main()
