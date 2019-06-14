@@ -48,6 +48,36 @@ def getnewsdetail(newsurl):                                        #获得单页
     return jresult
 
 
+def getrawHTML(newsurl):
+    res=requests.get(newsurl)
+    res.encoding='utf-8'
+    return res.text
+
+
+def _download_thread(i):
+    url_pos = i
+    while url_pos <= len(urls):
+        
+        try: 
+            result = getrawHTML(urls[url_pos])
+            jresult = json.dumps({urls[url_pos] :  result})
+
+            url_pos += num_thread
+        except:
+            url_pos += num_thread
+            print("Error at", url_pos)
+            with open("sina_html_except.txt", "a") as fout:
+                fout.write(urls[url_pos] + "\n")
+            continue
+
+        
+        with open("sina_html_dump_" + str(i) + ".jsonl", "a", encoding = "utf-8") as fout:
+            fout.write(jresult + "\n")
+            print(url_pos)
+
+        with open("sina_html_done.txt", "a", encoding = "utf-8") as fout:
+            fout.write(urls[url_pos])
+
 
 def _thread(i):
     url_pos = i
@@ -78,7 +108,7 @@ def main():
     
     pool = multiprocessing.Pool()
     # 多进程  
-    thread = threading.Thread(target=pool.map, args = (_thread, [x for x in range(0, 19)]))
+    thread = threading.Thread(target=pool.map, args = (_download_thread, [x for x in range(0, 19)]))
     thread.start()
     thread.join()
 
