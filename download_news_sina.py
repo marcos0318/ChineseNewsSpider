@@ -1,6 +1,26 @@
+import json
+import csv
+import threading
+import multiprocessing
+import json
+from urllib.parse import urlencode
+from urllib.request import urlopen,Request,urlparse,build_opener,install_opener
+from urllib.error import URLError,HTTPError
+import requests
+from bs4 import BeautifulSoup
+from datetime import datetime
+import json
+import re
+
+
+
+
 
 
 urls = []
+num_thread = 40
+
+
 
 with open("sina_url_uniq.csv") as fin:
     for line in fin:
@@ -24,11 +44,38 @@ def getnewsdetail(newsurl):                                        #获得单页
     result['article']=articleall
     result['editor']=soup.select('#article p')[-1].text.strip('责任编辑：')     #获取作者姓名
 #     result['comment_num']=getcommentcounts(newsurl)
-    return result
+    jresult = json.dumps(result)
+    return jresult
 
+
+
+def _thread(i):
+    url_pos = i
+    while url_pos <= len(url):
+        try: 
+            jresult = getnewsdetail(urls[url_pos])
+            url_pos += num_thread
+        except:
+            url_pos += num_thread
+            continue
+
+        with open("sina_dump_" + str(i) ".jsonl", "a", encoding = utf-8) as fout:
+            fout.write(jresult _ "\n")
+
+        # only test
+        break
 
 def main():
-    print(urls)
+    
+    pool = multiprocessing.Pool()
+    # 多进程  
+    thread = threading.Thread(target=pool.map, args = (_thread, [x for x in range(0, 19)]))
+    thread.start()
+    thread.join()
 
 if __name__ == "__main__":
     main()
+
+
+
+
