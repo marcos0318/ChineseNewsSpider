@@ -52,11 +52,7 @@ def getnewsdetail(newsurl):                                        #获得单页
 def _thread(i):
     url_pos = i
     while url_pos <= len(urls):
-        # only test
-        if url_pos > 10:
-            break
-
-        getnewsdetail(urls[url_pos])
+        
         try: 
             jresult = getnewsdetail(urls[url_pos])
 
