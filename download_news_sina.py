@@ -60,7 +60,10 @@ def _thread(i):
             continue
 
         with open("sina_dump_" + str(i) ".jsonl", "a", encoding = utf-8) as fout:
-            fout.write(jresult _ "\n")
+            fout.write(jresult + "\n")
+
+        with open("sina_done_" + str(i) ".txt", "a", encoding = utf-8) as fout:
+            fout.write(urls[url_pos] + "\n")
 
         # only test
         break
