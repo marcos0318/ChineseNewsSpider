@@ -64,12 +64,16 @@ def _thread(i):
         except:
             url_pos += num_thread
             print("Error at", url_pos)
+            with open("sina_except.txt") as fout:
+                fout.write(urls[url_pos] + "\n")
             continue
-        print(url_pos)
+
+        
         with open("sina_dump_" + str(i) + ".jsonl", "a", encoding = "utf-8") as fout:
             fout.write(jresult + "\n")
+            print(url_pos)
 
-        with open("sina_done_" + str(i) + ".txt", "a", encoding = "utf-8") as fout:
+        with open("sina_done.txt", "a", encoding = "utf-8") as fout:
             fout.write(urls[url_pos] + "\n")
 
 
