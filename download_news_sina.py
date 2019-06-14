@@ -51,7 +51,7 @@ def getnewsdetail(newsurl):                                        #获得单页
 
 def _thread(i):
     url_pos = i
-    while url_pos <= len(url):
+    while url_pos <= len(urls):
         try: 
             jresult = getnewsdetail(urls[url_pos])
             url_pos += num_thread
