@@ -52,8 +52,14 @@ def getnewsdetail(newsurl):                                        #获得单页
 def _thread(i):
     url_pos = i
     while url_pos <= len(urls):
+        # only test
+        if url_pos > 10:
+            break
+
+        getnewsdetail(urls[url_pos])
         try: 
             jresult = getnewsdetail(urls[url_pos])
+
             url_pos += num_thread
         except:
             url_pos += num_thread
@@ -66,8 +72,7 @@ def _thread(i):
         with open("sina_done_" + str(i) + ".txt", "a", encoding = "utf-8") as fout:
             fout.write(urls[url_pos] + "\n")
 
-        # only test
-        break
+
 
 def main():
     
