@@ -60,7 +60,7 @@ def _thread(i):
         except:
             url_pos += num_thread
             print("Error at", url_pos)
-            with open("sina_except.txt") as fout:
+            with open("sina_except.txt", "a") as fout:
                 fout.write(urls[url_pos] + "\n")
             continue
 
